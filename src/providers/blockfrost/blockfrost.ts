@@ -55,13 +55,11 @@ class Blockfrost implements Provider {
   }
 
   async getConfirmations(txHash: string) {
-    const tx = await fetchWithFallback(() => this.blockfrost.txs(txHash), null);
+    const [tx, latestBlock] = await Promise.all([
+      fetchWithFallback(() => this.blockfrost.txs(txHash), null),
+      fetchWithFallback(() => this.blockfrost.blocksLatest(), null),
+    ]);
     invariant(tx, `Transaction with hash ${txHash} not found`);
-
-    const latestBlock = await fetchWithFallback(
-      () => this.blockfrost.blocksLatest(),
-      null
-    );
     invariant(latestBlock, "Latest block information not found");
 
     return latestBlock.height ? latestBlock.height - tx.block_height + 1 : 0;
