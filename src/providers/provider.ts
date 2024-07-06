@@ -15,6 +15,7 @@ type Provider = {
   findTokensOf: (policyId: string) => Promise<Asset[]>;
   getAssetAddresses: (assetId: string) => Promise<AssetAddress[]>;
   getConfirmations: (txHash: string) => Promise<number>;
+  getHeight: () => Promise<number>;
   getStakedAddresses: (stakeKey: string) => Promise<Address[]>;
   getTokenHistory: (tokenId: string, limit: number) => Promise<OutRef[]>;
   getUtxos: (address: string, paginate?: boolean) => Promise<UTxO[]>;
