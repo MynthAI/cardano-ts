@@ -112,7 +112,7 @@ test("blockfrost: getTokenHistory", async (t) => {
 
 test("blockfrost: getConfirmations", async (t) => {
   const confirmations = await blockfrost.getConfirmations(
-    "9dbe50247cadc5211f2108f4fe7f614abcf76e550e7f176afd30743ac0776806",
+    "9dbe50247cadc5211f2108f4fe7f614abcf76e550e7f176afd30743ac0776806"
   );
   t.ok(confirmations > 50);
   t.end();
