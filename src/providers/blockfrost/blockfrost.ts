@@ -75,7 +75,7 @@ class Blockfrost implements Provider {
     return paginate(
       (page) => this.blockfrost.assetsAddresses(assetId, { page }),
       this.limit,
-      parallel ?? this.parallel
+      parallel && parallel > 0 ? parallel : this.parallel
     );
   }
 
