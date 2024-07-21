@@ -9,6 +9,15 @@ type AssetAddress = {
   quantity: string;
 };
 
+type Metadata = {
+  label: string;
+  json_metadata:
+    | string
+    | {
+        [key: string]: unknown;
+      };
+};
+
 type Provider = {
   findAllTokens: (policyId: string) => Promise<Address[]>;
   findToken: (tokenId: string) => Promise<Address>;
@@ -19,6 +28,7 @@ type Provider = {
   ) => Promise<AssetAddress[]>;
   getConfirmations: (txHash: string) => Promise<number>;
   getHeight: () => Promise<number>;
+  getMetadata: (tx: string) => Promise<Metadata[]>;
   getStakedAddresses: (stakeKey: string) => Promise<Address[]>;
   getTokenHistory: (tokenId: string, limit: number) => Promise<OutRef[]>;
   getUtxos: (address: string, paginate?: boolean) => Promise<UTxO[]>;

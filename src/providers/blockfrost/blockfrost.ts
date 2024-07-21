@@ -63,6 +63,10 @@ class Blockfrost implements Provider {
     return latestBlock.height;
   }
 
+  async getMetadata(tx: string) {
+    return await fetchWithFallback(() => this.blockfrost.txsMetadata(tx), []);
+  }
+
   async getConfirmations(txHash: string, height: number = 0) {
     const tx = await fetchWithFallback(() => this.blockfrost.txs(txHash), null);
     invariant(tx, `Transaction with hash ${txHash} not found`);

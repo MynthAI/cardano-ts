@@ -117,3 +117,21 @@ test("blockfrost: getConfirmations", async (t) => {
   t.ok(confirmations > 50);
   t.end();
 });
+
+test("blockfrost: getMetadata", async (t) => {
+  const metadata = await blockfrost.getMetadata(
+    "8782cee8ed0259c90e3f20444e74c9083ee9ee23fd697ac2f191163e57401e6c"
+  );
+  t.deepEqual(metadata, [
+    {
+      label: "674",
+      json_metadata: {
+        City: "Mumbai",
+        Sensor: "DTH22 with Raspberry Pi",
+        Humidity: "99.9000015258789 %",
+        Timestamp: "1721464201",
+        Temperature: "29.700000762939453 C",
+      },
+    },
+  ]);
+});
