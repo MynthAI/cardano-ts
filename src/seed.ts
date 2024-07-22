@@ -29,9 +29,12 @@ const getAddressFromSeed = (seed: string, network: Network = "mainnet") => {
     .to_bech32(undefined);
 };
 
-const getPrivateKeyFromSeed = (seed: string): string => {
+const getPrivateKeyFromSeed = (
+  seed: string,
+  derivative: number = 0
+): string => {
   const accountKey = getAccountKeyFromSeed(seed);
-  return accountKey.derive(0).derive(0).to_raw_key().to_bech32();
+  return accountKey.derive(derivative).derive(0).to_raw_key().to_bech32();
 };
 
 class Seed {
@@ -43,6 +46,10 @@ class Seed {
 
   getPrivateKey() {
     return getPrivateKeyFromSeed(this.phrase);
+  }
+
+  getPrivateStakeKey() {
+    return getPrivateKeyFromSeed(this.phrase, 2);
   }
 }
 
