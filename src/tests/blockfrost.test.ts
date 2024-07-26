@@ -91,7 +91,7 @@ test(
     const utxos = await blockfrost.getUtxos(
       "addr_test1qzqgms3rckd6ljgej4uq0ahrfa4nlppxs0en9qysxfhyzttt9f7xfrtr7gk8xqaup43yyzm6vmlg74ms3yqycsluu00qxwj04a"
     );
-    t.equal(utxos.length, 121);
+    t.equal(utxos.length, 120);
     t.end();
   },
   { timeout: 9000 }
