@@ -31,7 +31,7 @@ type Provider = {
   getMetadata: (tx: string) => Promise<Metadata[]>;
   getStakedAddresses: (stakeKey: string) => Promise<Address[]>;
   getTokenHistory: (tokenId: string, limit: number) => Promise<OutRef[]>;
-  getUtxos: (address: string, paginate?: boolean) => Promise<UTxO[]>;
+  getUtxos: (address: string) => Promise<UTxO[]>;
   network: "mainnet" | "preprod" | "preview";
 };
 

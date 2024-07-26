@@ -47,11 +47,8 @@ class Blockfrost implements Provider {
     return addresses[0].address;
   }
 
-  getUtxos(address: string, paginate?: boolean) {
-    // Addresses typically don't have many UTXOs, so don't
-    // load multiple pages since that'll only slow down the
-    // results
-    return getAddressUtxos(this.blockfrost, address, this.limit, 1, !!paginate);
+  getUtxos(address: string) {
+    return getAddressUtxos(this.blockfrost, address, this.limit);
   }
 
   async getHeight() {
