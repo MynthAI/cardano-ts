@@ -13,23 +13,31 @@ const getAddressUtxos = async (
   blockfrost: BlockFrostAPI,
   address: string,
   limit: LimitFunction
-): Promise<UTxO[]> => {
-  let page = 1;
-  type BlockfrostUtxo = Awaited<ReturnType<typeof blockfrost.addressesUtxos>>;
+): Promise<UTxO[]> =>
+  await Promise.all(
+    (
+      await queryUtxos(blockfrost, address, limit)
+    ).map((utxo) => toUtxo(utxo, blockfrost, limit))
+  );
+
+const queryUtxos = async (
+  blockfrost: BlockFrostAPI,
+  address: string,
+  limit: LimitFunction
+) => {
+  type BlockfrostUtxo = Awaited<
+    ReturnType<typeof blockfrost.addressesUtxos>
+  >[number];
   const utxos: BlockfrostUtxo[] = [];
 
-  while (true) {
+  for (let page = 1; ; page++) {
     const result = await fetchWithFallback(
-      () => blockfrost.addressesUtxos(address, { page: page++ }),
+      () => limit(() => blockfrost.addressesUtxos(address, { page })),
       []
     );
-    utxos.push(result);
-    if (result.length < 100) break;
+    utxos.push(...result);
+    if (result.length < 100) return utxos;
   }
-
-  return await Promise.all(
-    utxos.flat().map((utxo) => toUtxo(utxo, blockfrost, limit))
-  );
 };
 
 const toUtxo = async (
