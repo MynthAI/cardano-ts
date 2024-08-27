@@ -5,7 +5,7 @@ import Provider from "../provider.js";
 import paginate from "./paginate.js";
 import * as tokens from "./tokens.js";
 import { fetchWithFallback } from "./utils.js";
-import { getAddressUtxos } from "./utxos.js";
+import { getAddressUtxos, getTransactionUtxos } from "./utxos.js";
 
 class Blockfrost implements Provider {
   readonly network: "mainnet" | "preprod" | "preview";
@@ -45,6 +45,10 @@ class Blockfrost implements Provider {
     );
 
     return addresses[0].address;
+  }
+
+  getTransactionUtxos(txHash: string) {
+    return getTransactionUtxos(this.blockfrost, txHash, this.limit);
   }
 
   getUtxos(address: string) {

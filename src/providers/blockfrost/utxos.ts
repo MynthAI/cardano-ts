@@ -1,13 +1,7 @@
 import { BlockFrostAPI } from "@blockfrost/blockfrost-js";
-import { components } from "@blockfrost/openapi";
 import { UTxO } from "@lucid-evolution/lucid";
 import { LimitFunction } from "p-limit";
 import { fetchWithFallback } from "./utils.js";
-
-type ElementType<T> = T extends (infer U)[] ? U : never;
-type BlockfrostUtxo = ElementType<
-  components["schemas"]["address_utxo_content"]
->;
 
 const getAddressUtxos = async (
   blockfrost: BlockFrostAPI,
@@ -19,6 +13,23 @@ const getAddressUtxos = async (
       await queryUtxos(blockfrost, address, limit)
     ).map((utxo) => toUtxo(utxo, blockfrost, limit))
   );
+
+const getTransactionUtxos = async (
+  blockfrost: BlockFrostAPI,
+  txHash: string,
+  limit: LimitFunction
+): Promise<UTxO[]> => {
+  const utxos =
+    (
+      await fetchWithFallback(
+        () => limit(() => blockfrost.txsUtxos(txHash)),
+        undefined
+      )
+    )?.outputs || [];
+  return Promise.all(
+    utxos.map((utxo) => toUtxo({ ...utxo, tx_hash: txHash }, blockfrost, limit))
+  );
+};
 
 const queryUtxos = async (
   blockfrost: BlockFrostAPI,
@@ -40,8 +51,18 @@ const queryUtxos = async (
   }
 };
 
+type UtxoStructure = {
+  tx_hash: string;
+  output_index: number;
+  amount: Array<{ unit: string; quantity: string }>;
+  address: string;
+  inline_datum?: string | null;
+  data_hash?: string | null;
+  reference_script_hash?: string | null;
+};
+
 const toUtxo = async (
-  utxo: BlockfrostUtxo,
+  utxo: UtxoStructure,
   blockfrost: BlockFrostAPI,
   limit: LimitFunction
 ): Promise<UTxO> => {
@@ -74,4 +95,4 @@ const toUtxo = async (
   return ref;
 };
 
-export { getAddressUtxos };
+export { getAddressUtxos, getTransactionUtxos };
