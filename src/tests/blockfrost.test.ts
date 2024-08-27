@@ -97,6 +97,18 @@ test(
   { timeout: 9000 }
 );
 
+test(
+  "blockfrost: getTransactionUtxos returns UTXOs",
+  async (t) => {
+    const utxos = await blockfrost.getTransactionUtxos(
+      "55057a346de17834fe4fe8932e7129b678a19d20841b1d71ae761374a004885d"
+    );
+    t.equal(utxos.length, 13);
+    t.end();
+  },
+  { timeout: 9000 }
+);
+
 test("blockfrost: getStakedAddresses", async (t) => {
   const addresses = await blockfrost.getStakedAddresses(
     "stake_test1uz7tnvcj8qy92r2mtlrxugwcnec6ck72c9gp5t5h3jd0qkshdk2kv"
