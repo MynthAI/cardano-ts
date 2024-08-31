@@ -1,4 +1,4 @@
-import C from "@dcspark/cardano-multiplatform-lib-nodejs";
+import C from "@anastasia-labs/cardano-multiplatform-lib-nodejs";
 import { fromHex } from "@harmoniclabs/uint8array-utils";
 import { mnemonicToEntropy } from "bip39";
 

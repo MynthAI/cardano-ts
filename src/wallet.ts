@@ -1,4 +1,4 @@
-import C from "@dcspark/cardano-multiplatform-lib-nodejs";
+import C from "@anastasia-labs/cardano-multiplatform-lib-nodejs";
 import { Address } from "@harmoniclabs/plu-ts";
 import { UTxO } from "@lucid-evolution/lucid";
 import invariant from "./invariant.js";

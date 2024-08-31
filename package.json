@@ -25,10 +25,9 @@
   },
   "dependencies": {
     "@blockfrost/blockfrost-js": "^5.5.0",
-    "@dcspark/cardano-multiplatform-lib-nodejs": "^5.2.0",
     "@harmoniclabs/bip32_ed25519": "^0.1.1",
     "@harmoniclabs/plu-ts": "^0.7.0",
-    "@lucid-evolution/lucid": "^0.2.45",
+    "@lucid-evolution/lucid": "^0.3.19",
     "bip39": "^3.1.0",
     "p-limit": "^5.0.0"
   },
@@ -40,10 +39,10 @@
     "@typescript-eslint/eslint-plugin": "^6.7.5",
     "@typescript-eslint/parser": "^6.7.5",
     "concurrently": "^8.2.0",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-node": "^0.3.9",
     "eslint-plugin-import": "^2.28.1",
-    "eslint": "^8.51.0",
     "faucet": "^0.0.4",
     "prettier": "^2.8.8",
     "supertape": "^10.4.0",
