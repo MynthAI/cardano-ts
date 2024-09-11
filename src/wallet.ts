@@ -1,5 +1,5 @@
 import C from "@anastasia-labs/cardano-multiplatform-lib-nodejs";
-import { Address } from "@harmoniclabs/plu-ts";
+import { Address, CredentialType } from "@harmoniclabs/plu-ts";
 import { UTxO } from "@lucid-evolution/lucid";
 import invariant from "./invariant.js";
 import Provider from "./providers/provider.js";
@@ -15,7 +15,10 @@ const getAccountUtxos = async (
     await Promise.all(
       addresses.map(async (address) => {
         // Ignore script addresses
-        if (Address.fromString(address).paymentCreds.type == "script")
+        if (
+          Address.fromString(address).paymentCreds.type ===
+          CredentialType.Script
+        )
           return [];
 
         return provider.getUtxos(address);
