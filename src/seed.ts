@@ -16,7 +16,8 @@ const getAccountKeyFromSeed = (seed: string) =>
 const getAddressFromSeed = (
   seed: string,
   network: Network = "mainnet",
-  index: number = 0
+  index: number = 0,
+  includeStakeKey: boolean = true
 ) => {
   const accountKey = getAccountKeyFromSeed(seed);
   const paymentKey = accountKey.derive(0).derive(index).to_raw_key();
@@ -24,10 +25,18 @@ const getAddressFromSeed = (
   const paymentKeyHash = paymentKey.to_public().hash();
   const stakeKeyHash = stakeKey.to_public().hash();
 
-  return C.BaseAddress.new(
+  if (includeStakeKey)
+    return C.BaseAddress.new(
+      network == "mainnet" ? 1 : 0,
+      C.Credential.new_pub_key(paymentKeyHash),
+      C.Credential.new_pub_key(stakeKeyHash)
+    )
+      .to_address()
+      .to_bech32(undefined);
+
+  return C.EnterpriseAddress.new(
     network == "mainnet" ? 1 : 0,
-    C.Credential.new_pub_key(paymentKeyHash),
-    C.Credential.new_pub_key(stakeKeyHash)
+    C.Credential.new_pub_key(paymentKeyHash)
   )
     .to_address()
     .to_bech32(undefined);
@@ -51,8 +60,13 @@ class Seed {
     this.index++;
   }
 
-  getAddress() {
-    return getAddressFromSeed(this.phrase, this.network, this.index);
+  getAddress(includeStakeKey: boolean = true) {
+    return getAddressFromSeed(
+      this.phrase,
+      this.network,
+      this.index,
+      includeStakeKey
+    );
   }
 
   getPrivateKey() {
