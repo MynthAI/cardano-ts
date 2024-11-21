@@ -24,7 +24,7 @@
     "url": "git+https://github.com/MynthAI/cardano-ts.git"
   },
   "peerDependencies": {
-    "@lucid-evolution/lucid": "^0.3.28"
+    "@lucid-evolution/lucid": ">=0.3.28"
   },
   "dependencies": {
     "@blockfrost/blockfrost-js": "^5.5.0",
